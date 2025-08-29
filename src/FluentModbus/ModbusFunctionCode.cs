@@ -80,7 +80,11 @@
         /// </summary>
         ReadFifoQueue = 0x18,               // FC24
 
-        //
+        /// <summary>
+        /// 
+        /// </summary>
+        EncapsulatedInterfaceTransport = 0x2B, // FC43
+
         /// <summary>
         /// This function code is added to another function code to indicate that an error occured.
         /// </summary>

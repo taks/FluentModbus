@@ -497,6 +497,24 @@ namespace FluentModbus
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+        public async Task<Memory<byte>> ReadDeviceIdentificationAsync(byte unitIdentifier, byte readDeviceIdCode, byte objectId, CancellationToken cancellationToken = default)
+        {
+            var buffer = await TransceiveFrameAsync(unitIdentifier, ModbusFunctionCode.EncapsulatedInterfaceTransport, writer =>
+            {
+                writer.Write((byte)ModbusFunctionCode.EncapsulatedInterfaceTransport);      // 07     Function Code
+
+                writer.Write(0x0E);             // 08  MEI Type
+                writer.Write(readDeviceIdCode); // 09  Read Device ID code
+                writer.Write(objectId);         // 10  object ID
+            }, cancellationToken).ConfigureAwait(false);
+
+            return buffer;
+        }
+
     }
 }
 

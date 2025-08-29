@@ -580,5 +580,23 @@ namespace FluentModbus
         {
             throw new NotImplementedException();
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Span<byte> ReadDeviceIdentification(byte unitIdentifier, byte readDeviceIdCode, byte objectId)
+        {
+            var buffer = TransceiveFrame(unitIdentifier, ModbusFunctionCode.EncapsulatedInterfaceTransport, writer =>
+            {
+                writer.Write((byte)ModbusFunctionCode.EncapsulatedInterfaceTransport);      // 07     Function Code
+
+                writer.Write(0x0E);             // 08  MEI Type
+                writer.Write(readDeviceIdCode); // 09  Read Device ID code
+                writer.Write(objectId);         // 10  object ID
+            });
+
+            return buffer;
+        }
     }
 }
